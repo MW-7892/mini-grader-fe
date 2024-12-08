@@ -19,3 +19,13 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+h1 {
+  @apply text-xl
+}
+
+@layer components {
+  .text-field {
+    @apply mt-2 block rounded-md border py-1 px-2 w-[300px] focus:outline outline-1 focus:outline-gray-300
+  }
+}

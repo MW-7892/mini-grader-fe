@@ -1,0 +1,7 @@
+overwrite: true
+schema: "PATH_TO_BACKEND/graph/schema/*.gql"
+documents: "app/**/*.tsx"
+generates:
+  app/gql/:
+    preset: "client"
+    plugins: []

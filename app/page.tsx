@@ -1,50 +1,49 @@
 'use client'
 
-import { gql, useMutation, useQuery } from "@apollo/client";
+import { Inter, Sofia_Sans } from "next/font/google"
+import { useRouter } from "next/navigation";
 
-const GET_USERS = gql`
-  query GetUsers {
-    users {
-      id
-      name
-      email
-      role
-    }
-  }
-`
+const inter = Inter({
+  subsets: ['latin']
+})
 
-const LOGIN = gql`
-  mutation Login($username: String! $password: String!) {
-    login(username: $username, password: $password)
-  }
-`
+const sofiaSans = Sofia_Sans({
+  subsets: ['latin']
+})
+
 export default function Home() {
-  const { data } = useQuery(GET_USERS)
-  const [login] = useMutation(
-    LOGIN,
-    {
-      onCompleted: (data) => localStorage.setItem('minigrader-token', data.login)
-    }
-  )
-  console.log(data)
+  const router = useRouter()
 
-  const handleLogin = () => {
-    login({
-      variables: {
-        username: "test7",
-        password: "password"
-      }
-    })
-  }
 
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <button onClick={handleLogin}> Login </button>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        Footer
-      </footer>
+    <div
+      className={`grid grid-cols-1 justify-items-center gap-y-16
+        h-screen content-center ${inter.className}`}
+    >
+      <div className="row text-center">
+        <div
+          className={`text-[96px] h-fit font-bold ${sofiaSans.className}`}
+        >
+          Mini Grader
+        </div>
+        <div className="text-lg">Quickly generate programming problems</div>
+      </div>
+      <div className="row flex gap-x-6">
+        <button
+          disabled={true}
+          className="rounded-full bg-transparent border border-gray-300 w-[160px]
+            py-2 font-light text-lg tracking-wider text-gray-400"
+        >
+          Try a demo
+        </button>
+        <button
+          onClick={() => router.push('/login')}
+          className="rounded-full bg-black text-white w-[160px] py-2 font-light text-lg
+            tracking-wider hover:bg-black/10 hover:text-black active:bg-transparent duration-300"
+        >
+          Sign in
+        </button>
+      </div>
     </div>
   );
 }
