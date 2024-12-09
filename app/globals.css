@@ -26,6 +26,11 @@ h1 {
 
 @layer components {
   .text-field {
-    @apply mt-2 block rounded-md border py-1 px-2 w-[300px] focus:outline outline-1 focus:outline-gray-300
+    @apply mt-2 block bg-gray-100 rounded-md py-2 px-3 w-[300px]
+      focus:outline outline-2 focus:outline-blue-300 focus:bg-transparent
+  }
+
+  button:disabled {
+    @apply opacity-50 cursor-not-allowed bg-gray-400 text-white  !important;
   }
 }

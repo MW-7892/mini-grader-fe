@@ -1,37 +1,50 @@
 'use client'
 
-import { LoginMutation, LoginMutationVariables } from "@/gql/graphql"
-import { gql, useMutation } from "@apollo/client"
-import { Field, Fieldset, Input, Label } from "@headlessui/react"
-import { useRouter } from "next/navigation"
+import { RegisterUserMutation, RegisterUserMutationVariables } from "@/gql/graphql";
+import { gql, useMutation } from "@apollo/client";
+import { Field, Fieldset, Label, Input } from "@headlessui/react";
+import { useRouter } from "next/navigation";
 
-const LOGIN = gql`
-  mutation Login($username: String! $password: String!) {
-    login(username: $username, password: $password)
+const REGISTER_USER = gql`
+  mutation RegisterUser(
+    $username: String!
+    $password: String!
+    $email: String!
+  ) {
+    createUser(input: {
+      name: $username 
+      email: $email
+      password: $password
+      role: "user"
+    }) {
+      id
+      name
+      email
+    }
   }
 `
 
-export default function LoginForm() {
+export default function RegisterForm() {
+  const [registerUser, { loading }] = useMutation<
+    RegisterUserMutation,
+    RegisterUserMutationVariables
+  >(REGISTER_USER)
   const router = useRouter()
-  const [ login, { loading } ] = useMutation<LoginMutation, LoginMutationVariables>(
-    LOGIN,
-    {
-      onCompleted: (data) => localStorage.setItem('minigrader-token', data.login)
-    }
-  )
 
   const handleLogin = (event: any) => {
     event.preventDefault()
     const username = event.target.username.value
     const password = event.target.password.value
+    const email = event.target.email.value
 
-    login({
+    registerUser({
       variables: {
         username,
-        password
+        password,
+        email,
       }
     })
-      .then(() => router.push('/dashboard'))
+      .then(() => router.push('/login'))
       .catch(error => console.log(error.message))
   }
 
@@ -57,12 +70,22 @@ export default function LoginForm() {
             placeholder="********"
           />
         </Field>
+        <Field>
+          <Label className="block text-sm font-medium">Email</Label>
+          <Input
+            required
+            type="email"
+            className="text-field"
+            name="email"
+            placeholder="test@example.com"
+          />
+        </Field>
         <button
           type="submit"
           className="bg-black w-full text-white py-2 rounded-full mt-4 hover:bg-black/60 active:bg-black/30"
           disabled={loading}
         >
-          Sign in
+          Register
         </button>
       </Fieldset>
     </form>

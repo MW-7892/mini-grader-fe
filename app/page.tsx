@@ -31,7 +31,7 @@ export default function Home() {
       <div className="row flex gap-x-6">
         <button
           disabled={true}
-          className="rounded-full bg-transparent border border-gray-300 w-[160px]
+          className="rounded-full bg-transparent w-[160px]
             py-2 font-light text-lg tracking-wider text-gray-400"
         >
           Try a demo
