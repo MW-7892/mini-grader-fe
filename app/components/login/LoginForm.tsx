@@ -4,6 +4,9 @@ import { LoginMutation, LoginMutationVariables } from "@/gql/graphql"
 import { gql, useMutation } from "@apollo/client"
 import { Field, Fieldset, Input, Label } from "@headlessui/react"
 import { useRouter } from "next/navigation"
+import { useState } from "react"
+import { CgSpinner } from "react-icons/cg"
+import { RiErrorWarningLine } from "react-icons/ri"
 
 const LOGIN = gql`
   mutation Login($username: String! $password: String!) {
@@ -13,7 +16,8 @@ const LOGIN = gql`
 
 export default function LoginForm() {
   const router = useRouter()
-  const [ login, { loading } ] = useMutation<LoginMutation, LoginMutationVariables>(
+  const [isError, setIsError] = useState<boolean>(false)
+  const [ login, { loading, error } ] = useMutation<LoginMutation, LoginMutationVariables>(
     LOGIN,
     {
       onCompleted: (data) => localStorage.setItem('minigrader-token', data.login)
@@ -22,6 +26,7 @@ export default function LoginForm() {
 
   const handleLogin = (event: any) => {
     event.preventDefault()
+    setIsError(false)
     const username = event.target.username.value
     const password = event.target.password.value
 
@@ -32,7 +37,9 @@ export default function LoginForm() {
       }
     })
       .then(() => router.push('/dashboard'))
-      .catch(error => console.log(error.message))
+      .catch(() => {
+        setIsError(true)
+      })
   }
 
   return (
@@ -57,12 +64,21 @@ export default function LoginForm() {
             placeholder="********"
           />
         </Field>
+        { isError && (
+          <div className="flex text-sm text-red-500 items-center gap-x-1">
+            <RiErrorWarningLine />
+            <span>{ error?.message }</span>
+          </div>
+        )}
         <button
           type="submit"
-          className="bg-black w-full text-white py-2 rounded-full mt-4 hover:bg-black/60 active:bg-black/30"
+          className="bg-black flex items-center w-full text-white py-2
+            rounded-full mt-4 hover:bg-black/60 active:bg-black/30
+            justify-center gap-x-3"
           disabled={loading}
         >
-          Sign in
+          { loading && <CgSpinner className="animate-spin" /> }
+          <span>Sign in</span>
         </button>
       </Fieldset>
     </form>
