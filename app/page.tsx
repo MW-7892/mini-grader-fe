@@ -14,7 +14,6 @@ const sofiaSans = Sofia_Sans({
 export default function Home() {
   const router = useRouter()
 
-
   return (
     <div
       className={`grid grid-cols-1 justify-items-center gap-y-16

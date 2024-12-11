@@ -4,13 +4,15 @@ import { ApolloLink, from, HttpLink } from "@apollo/client";
 import { ApolloClient, ApolloNextAppProvider, InMemoryCache } from "@apollo/experimental-nextjs-app-support";
 import { setContext } from "apollo-link-context";
 
+export const AUTH_TOKEN_NAME = 'minigrader-token'
+
 export const makeClient = () => {
   const httpLink = new HttpLink({
     uri: process.env.NEXT_PUBLIC_API_SERVER,
   })
 
   const authMiddleware = setContext(async (_, { headers }) => {
-    const token = localStorage.getItem('minigrader-token')
+    const token = localStorage.getItem(AUTH_TOKEN_NAME)
 
     return {
       headers: {
