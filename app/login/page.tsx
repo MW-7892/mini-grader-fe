@@ -1,16 +1,12 @@
-'use client'
-
 import LoginForm from "@/components/login/LoginForm"
 import { Inter } from "next/font/google"
-import { useRouter } from "next/navigation"
+import Link from "next/link"
 
 const inter = Inter({
-  subsets: ['latin']
+  subsets: ["latin"],
 })
 
 export default function Login() {
-  const router = useRouter()
-
   return (
     <div
       className={`grid grid-cols-1 justify-items-center gap-y-6
@@ -21,12 +17,12 @@ export default function Login() {
       </div>
       <div className="text-sm gap-x-3">
         <span className="text-gray-600"> Don't have an account? </span>
-        <span
-          onClick={() => router.push('/register')}
+        <Link
+          href="/register"
           className="font-bold underline hover:text-blue-500 hover:cursor-pointer"
         >
           Register now!
-        </span>
+        </Link>
       </div>
     </div>
   )

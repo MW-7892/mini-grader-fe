@@ -1,4 +1,4 @@
-'use client'
+"use client"
 
 import { useAuth } from "@/components/common/auth/AuthProvider"
 import AuthWrapper from "@/components/common/auth/AuthWrapper"
@@ -9,7 +9,7 @@ import { gql, useQuery } from "@apollo/client"
 import { Inter } from "next/font/google"
 
 const inter = Inter({
-  subsets: ['latin']
+  subsets: ["latin"],
 })
 
 const GET_DASHBOARD_DATA = gql`
@@ -26,7 +26,7 @@ const GET_DASHBOARD_DATA = gql`
 export default function Dashboard() {
   const auth = useAuth()
   const { data } = useQuery<DashboardQuery>(GET_DASHBOARD_DATA, {
-    skip: !auth.user
+    skip: !auth.user,
   })
 
   return (
@@ -34,9 +34,7 @@ export default function Dashboard() {
       <div className={`${inter.className} flex flex-col w-screen h-screen p-10 content-start`}>
         <DashboardHeader name={data?.me?.name ?? "user"} />
         <div className="grid grid-cols-10 grow">
-          <div className="col col-span-3">
-            Test
-          </div>
+          <div className="col col-span-3">Test</div>
           <div className="col col-span-7">
             <TasksList tasks={[]} />
           </div>

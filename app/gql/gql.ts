@@ -1,6 +1,6 @@
 /* eslint-disable */
-import * as types from './graphql';
-import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
+import * as types from "./graphql"
+import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/core"
 
 /**
  * Map of all GraphQL operations in the project.
@@ -14,11 +14,15 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Learn more about it here: https://the-guild.dev/graphql/codegen/plugins/presets/preset-client#reducing-bundle-size
  */
 const documents = {
-    "\n  query ProfileAuth {\n    me {\n      id\n      name\n      role\n    }\n  }\n": types.ProfileAuthDocument,
-    "\n  mutation Login($username: String! $password: String!) {\n    login(username: $username, password: $password)\n  }\n": types.LoginDocument,
-    "\n  mutation RegisterUser(\n    $username: String!\n    $password: String!\n    $email: String!\n  ) {\n    createUser(input: {\n      name: $username \n      email: $email\n      password: $password\n      role: \"user\"\n    }) {\n      id\n      name\n      email\n    }\n  }\n": types.RegisterUserDocument,
-    "\n  query Dashboard {\n    me {\n      id\n      name\n      email\n      role\n    }\n  }\n": types.DashboardDocument,
-};
+  "\n  query ProfileAuth {\n    me {\n      id\n      name\n      role\n    }\n  }\n":
+    types.ProfileAuthDocument,
+  "\n  mutation Login($username: String! $password: String!) {\n    login(username: $username, password: $password)\n  }\n":
+    types.LoginDocument,
+  '\n  mutation RegisterUser(\n    $username: String!\n    $password: String!\n    $email: String!\n  ) {\n    createUser(input: {\n      name: $username \n      email: $email\n      password: $password\n      role: "user"\n    }) {\n      id\n      name\n      email\n    }\n  }\n':
+    types.RegisterUserDocument,
+  "\n  query Dashboard {\n    me {\n      id\n      name\n      email\n      role\n    }\n  }\n":
+    types.DashboardDocument,
+}
 
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
@@ -32,27 +36,36 @@ const documents = {
  * The query argument is unknown!
  * Please regenerate the types.
  */
-export function graphql(source: string): unknown;
+export function graphql(source: string): unknown
 
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query ProfileAuth {\n    me {\n      id\n      name\n      role\n    }\n  }\n"): (typeof documents)["\n  query ProfileAuth {\n    me {\n      id\n      name\n      role\n    }\n  }\n"];
+export function graphql(
+  source: "\n  query ProfileAuth {\n    me {\n      id\n      name\n      role\n    }\n  }\n",
+): (typeof documents)["\n  query ProfileAuth {\n    me {\n      id\n      name\n      role\n    }\n  }\n"]
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation Login($username: String! $password: String!) {\n    login(username: $username, password: $password)\n  }\n"): (typeof documents)["\n  mutation Login($username: String! $password: String!) {\n    login(username: $username, password: $password)\n  }\n"];
+export function graphql(
+  source: "\n  mutation Login($username: String! $password: String!) {\n    login(username: $username, password: $password)\n  }\n",
+): (typeof documents)["\n  mutation Login($username: String! $password: String!) {\n    login(username: $username, password: $password)\n  }\n"]
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation RegisterUser(\n    $username: String!\n    $password: String!\n    $email: String!\n  ) {\n    createUser(input: {\n      name: $username \n      email: $email\n      password: $password\n      role: \"user\"\n    }) {\n      id\n      name\n      email\n    }\n  }\n"): (typeof documents)["\n  mutation RegisterUser(\n    $username: String!\n    $password: String!\n    $email: String!\n  ) {\n    createUser(input: {\n      name: $username \n      email: $email\n      password: $password\n      role: \"user\"\n    }) {\n      id\n      name\n      email\n    }\n  }\n"];
+export function graphql(
+  source: '\n  mutation RegisterUser(\n    $username: String!\n    $password: String!\n    $email: String!\n  ) {\n    createUser(input: {\n      name: $username \n      email: $email\n      password: $password\n      role: "user"\n    }) {\n      id\n      name\n      email\n    }\n  }\n',
+): (typeof documents)['\n  mutation RegisterUser(\n    $username: String!\n    $password: String!\n    $email: String!\n  ) {\n    createUser(input: {\n      name: $username \n      email: $email\n      password: $password\n      role: "user"\n    }) {\n      id\n      name\n      email\n    }\n  }\n']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query Dashboard {\n    me {\n      id\n      name\n      email\n      role\n    }\n  }\n"): (typeof documents)["\n  query Dashboard {\n    me {\n      id\n      name\n      email\n      role\n    }\n  }\n"];
+export function graphql(
+  source: "\n  query Dashboard {\n    me {\n      id\n      name\n      email\n      role\n    }\n  }\n",
+): (typeof documents)["\n  query Dashboard {\n    me {\n      id\n      name\n      email\n      role\n    }\n  }\n"]
 
 export function graphql(source: string) {
-  return (documents as any)[source] ?? {};
+  return (documents as any)[source] ?? {}
 }
 
-export type DocumentType<TDocumentNode extends DocumentNode<any, any>> = TDocumentNode extends DocumentNode<  infer TType,  any>  ? TType  : never;
+export type DocumentType<TDocumentNode extends DocumentNode<any, any>> =
+  TDocumentNode extends DocumentNode<infer TType, any> ? TType : never

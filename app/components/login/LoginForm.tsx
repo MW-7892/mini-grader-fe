@@ -1,4 +1,4 @@
-'use client'
+"use client"
 
 import { LoginMutation, LoginMutationVariables } from "@/gql/graphql"
 import { gql, useMutation } from "@apollo/client"
@@ -9,7 +9,7 @@ import { CgSpinner } from "react-icons/cg"
 import { RiErrorWarningLine } from "react-icons/ri"
 
 const LOGIN = gql`
-  mutation Login($username: String! $password: String!) {
+  mutation Login($username: String!, $password: String!) {
     login(username: $username, password: $password)
   }
 `
@@ -17,12 +17,9 @@ const LOGIN = gql`
 export default function LoginForm() {
   const router = useRouter()
   const [isError, setIsError] = useState<boolean>(false)
-  const [ login, { loading, error } ] = useMutation<LoginMutation, LoginMutationVariables>(
-    LOGIN,
-    {
-      onCompleted: (data) => localStorage.setItem('minigrader-token', data.login)
-    }
-  )
+  const [login, { loading, error }] = useMutation<LoginMutation, LoginMutationVariables>(LOGIN, {
+    onCompleted: (data) => localStorage.setItem("minigrader-token", data.login),
+  })
 
   const handleLogin = (event: any) => {
     event.preventDefault()
@@ -33,10 +30,10 @@ export default function LoginForm() {
     login({
       variables: {
         username,
-        password
-      }
+        password,
+      },
     })
-      .then(() => router.push('/dashboard'))
+      .then(() => router.push("/dashboard"))
       .catch(() => {
         setIsError(true)
       })
@@ -47,12 +44,7 @@ export default function LoginForm() {
       <Fieldset className="grid gap-y-4">
         <Field>
           <Label className="block text-sm font-medium">Username</Label>
-          <Input
-            required
-            className="text-field"
-            name="username"
-            placeholder="Username"
-          />
+          <Input required className="text-field" name="username" placeholder="Username" />
         </Field>
         <Field>
           <Label className="block text-sm font-medium">Password</Label>
@@ -64,10 +56,10 @@ export default function LoginForm() {
             placeholder="********"
           />
         </Field>
-        { isError && (
+        {isError && (
           <div className="flex text-sm text-red-500 items-center gap-x-1">
             <RiErrorWarningLine />
-            <span>{ error?.message }</span>
+            <span>{error?.message}</span>
           </div>
         )}
         <button
@@ -77,11 +69,10 @@ export default function LoginForm() {
             justify-center gap-x-3"
           disabled={loading}
         >
-          { loading && <CgSpinner className="animate-spin" /> }
+          {loading && <CgSpinner className="animate-spin" />}
           <span>Sign in</span>
         </button>
       </Fieldset>
     </form>
   )
-
 }

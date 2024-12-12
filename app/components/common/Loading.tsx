@@ -2,8 +2,8 @@ import { Sofia_Sans } from "next/font/google"
 import { FaSpinner } from "react-icons/fa6"
 
 const sofiaSans = Sofia_Sans({
-  subsets: ['latin'],
-  weight: ['400']
+  subsets: ["latin"],
+  weight: ["400"],
 })
 
 export default function Loading() {

@@ -1,22 +1,13 @@
-'use client'
+"use client"
 
-import { RegisterUserMutation, RegisterUserMutationVariables } from "@/gql/graphql";
-import { gql, useMutation } from "@apollo/client";
-import { Field, Fieldset, Label, Input } from "@headlessui/react";
-import { useRouter } from "next/navigation";
+import { RegisterUserMutation, RegisterUserMutationVariables } from "@/gql/graphql"
+import { gql, useMutation } from "@apollo/client"
+import { Field, Fieldset, Label, Input } from "@headlessui/react"
+import { useRouter } from "next/navigation"
 
 const REGISTER_USER = gql`
-  mutation RegisterUser(
-    $username: String!
-    $password: String!
-    $email: String!
-  ) {
-    createUser(input: {
-      name: $username 
-      email: $email
-      password: $password
-      role: "user"
-    }) {
+  mutation RegisterUser($username: String!, $password: String!, $email: String!) {
+    createUser(input: { name: $username, email: $email, password: $password, role: "user" }) {
       id
       name
       email
@@ -42,10 +33,10 @@ export default function RegisterForm() {
         username,
         password,
         email,
-      }
+      },
     })
-      .then(() => router.push('/login'))
-      .catch(error => console.log(error.message))
+      .then(() => router.push("/login"))
+      .catch((error) => console.log(error.message))
   }
 
   return (
@@ -53,12 +44,7 @@ export default function RegisterForm() {
       <Fieldset className="grid gap-y-4">
         <Field>
           <Label className="block text-sm font-medium">Username</Label>
-          <Input
-            required
-            className="text-field"
-            name="username"
-            placeholder="Username"
-          />
+          <Input required className="text-field" name="username" placeholder="Username" />
         </Field>
         <Field>
           <Label className="block text-sm font-medium">Password</Label>
@@ -90,5 +76,4 @@ export default function RegisterForm() {
       </Fieldset>
     </form>
   )
-
 }

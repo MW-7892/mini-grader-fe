@@ -2,7 +2,7 @@ import RegisterForm from "@/components/login/RegisterForm"
 import { Inter } from "next/font/google"
 
 const inter = Inter({
-  subsets: ['latin']
+  subsets: ["latin"],
 })
 
 export default function Login() {

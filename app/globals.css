@@ -21,13 +21,13 @@ body {
 }
 
 h1 {
-  @apply text-xl
+  @apply text-xl;
 }
 
 @layer components {
   .text-field {
     @apply mt-2 block bg-gray-100 rounded-md py-2 px-3 w-[300px]
-      focus:outline outline-2 focus:outline-blue-300 focus:bg-transparent
+      focus:outline outline-2 focus:outline-blue-300 focus:bg-transparent;
   }
 
   button:disabled {

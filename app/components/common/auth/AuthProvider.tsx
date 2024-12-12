@@ -1,6 +1,13 @@
-'use client'
+"use client"
 
-import { createContext, Dispatch, SetStateAction, useContext, useState } from "react"
+import {
+  createContext,
+  Dispatch,
+  PropsWithChildren,
+  SetStateAction,
+  useContext,
+  useState,
+} from "react"
 
 type User = {
   id: string
@@ -9,8 +16,8 @@ type User = {
 }
 
 type AuthContextProps = {
-  user: User | null;
-  setUser: Dispatch<SetStateAction<User | null>>;
+  user: User | null
+  setUser: Dispatch<SetStateAction<User | null>>
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined)
@@ -18,19 +25,13 @@ const AuthContext = createContext<AuthContextProps | undefined>(undefined)
 export const useAuth = () => {
   const authContext = useContext(AuthContext)
   if (authContext === undefined) {
-    throw new Error('useAuth must be inside AuthProvider')
+    throw new Error("useAuth must be inside AuthProvider")
   }
   return authContext
-} 
+}
 
-export default function AuthProvider({ children }: { children: React.ReactNode }) {
+export default function AuthProvider({ children }: PropsWithChildren) {
   const [user, setUser] = useState<User | null>(null)
 
-  return (
-    <AuthContext.Provider
-      value={{ user, setUser }}
-    >
-      { children }
-    </AuthContext.Provider>
-  )
+  return <AuthContext.Provider value={{ user, setUser }}>{children}</AuthContext.Provider>
 }
