@@ -1,6 +1,7 @@
 'use client'
 
-import AuthWrapper, { useAuth } from "@/components/common/AuthWrapper"
+import { useAuth } from "@/components/common/auth/AuthProvider"
+import AuthWrapper from "@/components/common/auth/AuthWrapper"
 import DashboardHeader from "@/components/dashboard/DashboardHeader"
 import TasksList from "@/components/dashboard/TasksList"
 import { DashboardQuery } from "@/gql/graphql"
@@ -23,13 +24,10 @@ const GET_DASHBOARD_DATA = gql`
 `
 
 export default function Dashboard() {
-  const { user } = useAuth()
-  const { data, error } = useQuery<DashboardQuery>(GET_DASHBOARD_DATA, {
-    skip: !user
+  const auth = useAuth()
+  const { data } = useQuery<DashboardQuery>(GET_DASHBOARD_DATA, {
+    skip: !auth.user
   })
-
-  console.log(error)
-  console.log(data)
 
   return (
     <AuthWrapper>

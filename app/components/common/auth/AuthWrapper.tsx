@@ -1,14 +1,10 @@
 import { useRouter } from "next/navigation";
-import { createContext, useContext, useEffect, useState } from "react";
-import { AUTH_TOKEN_NAME } from "./ApolloWrapper";
+import { useEffect } from "react";
+import { AUTH_TOKEN_NAME } from "@/components/common/ApolloWrapper";
 import { gql, useQuery } from "@apollo/client";
-import Loading from "./Loading";
-
-type AuthContextProps = {
-  user: any
-}
-
-const AuthContext = createContext<AuthContextProps>({ user: null })
+import Loading from "@/components/common/Loading";
+import { ProfileAuthQuery } from "@/gql/graphql";
+import { useAuth } from "./AuthProvider";
 
 const GET_PROFILE_AUTH = gql`
   query ProfileAuth {
@@ -22,7 +18,7 @@ const GET_PROFILE_AUTH = gql`
 
 export default function AuthWrapper({ children }: { children: React.ReactNode }) {
   const router = useRouter()
-  const [user, setUser] = useState(null)
+  const { user, setUser } = useAuth()
 
   useEffect(() => {
     if (typeof window === 'undefined') return
@@ -31,20 +27,16 @@ export default function AuthWrapper({ children }: { children: React.ReactNode })
     }
   }, [router])
 
-  const { loading } = useQuery(GET_PROFILE_AUTH, {
+  const { loading } = useQuery<ProfileAuthQuery>(GET_PROFILE_AUTH, {
     onError: () => router.push('/login'),
     onCompleted: (data) => {
-      setUser(data.me)
+      setUser(data.me ?? null)
     }
   })
 
   return loading || user === null ? <Loading /> : (
-    <AuthContext.Provider
-      value={{ user }}
-    >
+    <>
       { children }
-    </AuthContext.Provider>
+    </>
   ) 
 }
-
-export const useAuth = () => useContext(AuthContext)
