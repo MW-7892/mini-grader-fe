@@ -33,10 +33,10 @@ export default function Dashboard() {
     <AuthWrapper>
       <div className={`${inter.className} flex flex-col w-screen h-screen p-10 content-start`}>
         <DashboardHeader name={data?.me?.name ?? "user"} />
-        <div className="grid grid-cols-10 grow">
+        <div className="grid grid-cols-10">
           <div className="col col-span-3">Test</div>
-          <div className="col col-span-7">
-            <TasksList tasks={[]} />
+          <div className="col col-span-7 overflow-y-hidden">
+            <TasksList />
           </div>
         </div>
       </div>

@@ -44,14 +44,14 @@ export default function RegisterForm() {
       <Fieldset className="grid gap-y-4">
         <Field>
           <Label className="block text-sm font-medium">Username</Label>
-          <Input required className="text-field" name="username" placeholder="Username" />
+          <Input required className="text-field w-[300px]" name="username" placeholder="Username" />
         </Field>
         <Field>
           <Label className="block text-sm font-medium">Password</Label>
           <Input
             required
             type="password"
-            className="text-field"
+            className="text-field w-[300px]"
             name="password"
             placeholder="********"
           />
@@ -61,7 +61,7 @@ export default function RegisterForm() {
           <Input
             required
             type="email"
-            className="text-field"
+            className="text-field w-[300px]"
             name="email"
             placeholder="test@example.com"
           />
