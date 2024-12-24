@@ -31,7 +31,10 @@ export default function Dashboard() {
 
   return (
     <AuthWrapper>
-      <div className={`${inter.className} flex flex-col w-screen h-screen pt-10 px-10 content-start`}>
+      <div
+        className={`${inter.className} flex flex-col w-screen h-screen
+          pt-10 px-10 content-start dark:bg-slate-900 dark:text-white`}
+      >
         <DashboardHeader name={data?.me?.name ?? "user"} />
         <div className="grid grid-cols-10 overflow-y-scroll">
           <div className="col col-span-3">Test</div>

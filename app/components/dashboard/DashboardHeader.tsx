@@ -1,19 +1,22 @@
 "use client"
 
 import { useRouter } from "next/navigation"
+import { useState } from "react"
 import { CiLogout } from "react-icons/ci"
+import { MdDarkMode, MdLightMode } from "react-icons/md"
 
 export default function DashboardHeader({ name }: { name: string }) {
   const router = useRouter()
+  const [isDarkMode, setIsDarkMode] = useState<boolean>((localStorage.getItem("minigrader-theme") ?? "light") === "dark")
   const handleLogout = () => {
     localStorage.removeItem("minigrader-token")
     router.push("/login")
   }
 
   const handleToggleDarkMode = () => {
-    const current = localStorage.getItem("minigrader-theme") ?? "light"
+    setIsDarkMode(!isDarkMode)
     document.querySelector("html")?.classList.toggle("dark")
-    localStorage.setItem("minigrader-theme", current === "light" ? "dark" : "light")
+    localStorage.setItem("minigrader-theme", isDarkMode ? "dark" : "light")
   }
 
   return (
@@ -27,10 +30,10 @@ export default function DashboardHeader({ name }: { name: string }) {
       <div className="flex align-top gap-x-3">
         <button
           onClick={handleToggleDarkMode}
-          className="flex text-white gap-x-3 bg-black items-center rounded-md px-5
-            py-2 duration-200 active:bg-gray-500 h-fit hover:bg-gray-800 hover:shadow-lg dark:bg-white"
+          className="flex text-gray-500 dark:text-white items-center size-10 justify-center rounded-full
+            duration-200 active:bg-gray-500 hover:bg-gray-500 hover:text-white bg-gray-200 dark:bg-black mr-3"
         >
-          Toggle Dark Mode
+          { isDarkMode ? <MdDarkMode className="size-5" /> : <MdLightMode className="size-5" /> }
         </button>
         <button
           onClick={() => router.push("/task/create")}
