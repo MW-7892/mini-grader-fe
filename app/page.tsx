@@ -16,7 +16,7 @@ export default function Home() {
 
   return (
     <div
-      className={`grid grid-cols-1 justify-items-center gap-y-16
+      className={`dark:bg-slate-900 grid grid-cols-1 justify-items-center gap-y-16
         h-screen content-center ${inter.className}`}
     >
       <div className="row text-center">

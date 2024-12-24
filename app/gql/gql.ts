@@ -15,12 +15,13 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  */
 const documents = {
     "\n  query ProfileAuth {\n    me {\n      id\n      name\n      role\n    }\n  }\n": types.ProfileAuthDocument,
-    "\n  query Tasks {\n    me {\n      id\n      tasks {\n        id\n        name\n        full_name\n        time_limit\n        memory_limit\n        is_public\n      }\n    }\n  }\n": types.TasksDocument,
+    "\n  query Tasks {\n    tasks(\n      permissions: [read, write]\n    ) {\n      id\n      name\n      full_name\n      time_limit\n      memory_limit\n      is_public\n    }\n  }\n": types.TasksDocument,
     "\n  mutation DeleteTask($id: ID!) {\n    deleteTask(id: $id) {\n      id\n    }\n  }\n": types.DeleteTaskDocument,
     "\n  mutation Login($username: String!, $password: String!) {\n    login(username: $username, password: $password)\n  }\n": types.LoginDocument,
     "\n  mutation RegisterUser($username: String!, $password: String!, $email: String!) {\n    createUser(input: { name: $username, email: $email, password: $password, role: \"user\" }) {\n      id\n      name\n      email\n    }\n  }\n": types.RegisterUserDocument,
     "\n  mutation CreateTask(\n    $name: String!\n    $full_name: String!\n    $statement: String\n    $time_limit: Int!\n    $memory_limit: Int!\n    $is_public: Boolean!\n  ) {\n    createTask(input: {\n      name: $name\n      full_name: $full_name\n      statement: $statement\n      time_limit: $time_limit\n      memory_limit: $memory_limit\n      is_public: $is_public\n    }){\n      id\n      name\n      full_name\n      statement\n      time_limit\n      memory_limit\n      is_public\n    }\n  }\n": types.CreateTaskDocument,
     "\n  query Dashboard {\n    me {\n      id\n      name\n      email\n      role\n    }\n  }\n": types.DashboardDocument,
+    "\n  query Task($id: ID!) {\n    task(id: $id) {\n      id\n      name\n      full_name\n      statement\n      time_limit\n      memory_limit\n      is_public\n    }\n  }\n": types.TaskDocument,
 };
 
 /**
@@ -44,7 +45,7 @@ export function graphql(source: "\n  query ProfileAuth {\n    me {\n      id\n  
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query Tasks {\n    me {\n      id\n      tasks {\n        id\n        name\n        full_name\n        time_limit\n        memory_limit\n        is_public\n      }\n    }\n  }\n"): (typeof documents)["\n  query Tasks {\n    me {\n      id\n      tasks {\n        id\n        name\n        full_name\n        time_limit\n        memory_limit\n        is_public\n      }\n    }\n  }\n"];
+export function graphql(source: "\n  query Tasks {\n    tasks(\n      permissions: [read, write]\n    ) {\n      id\n      name\n      full_name\n      time_limit\n      memory_limit\n      is_public\n    }\n  }\n"): (typeof documents)["\n  query Tasks {\n    tasks(\n      permissions: [read, write]\n    ) {\n      id\n      name\n      full_name\n      time_limit\n      memory_limit\n      is_public\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -65,6 +66,10 @@ export function graphql(source: "\n  mutation CreateTask(\n    $name: String!\n 
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  query Dashboard {\n    me {\n      id\n      name\n      email\n      role\n    }\n  }\n"): (typeof documents)["\n  query Dashboard {\n    me {\n      id\n      name\n      email\n      role\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query Task($id: ID!) {\n    task(id: $id) {\n      id\n      name\n      full_name\n      statement\n      time_limit\n      memory_limit\n      is_public\n    }\n  }\n"): (typeof documents)["\n  query Task($id: ID!) {\n    task(id: $id) {\n      id\n      name\n      full_name\n      statement\n      time_limit\n      memory_limit\n      is_public\n    }\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

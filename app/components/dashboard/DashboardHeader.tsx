@@ -10,6 +10,12 @@ export default function DashboardHeader({ name }: { name: string }) {
     router.push("/login")
   }
 
+  const handleToggleDarkMode = () => {
+    const current = localStorage.getItem("minigrader-theme") ?? "light"
+    document.querySelector("html")?.classList.toggle("dark")
+    localStorage.setItem("minigrader-theme", current === "light" ? "dark" : "light")
+  }
+
   return (
     <div className="flex justify-between">
       <div className="grid h-fit mb-6 gap-y-2">
@@ -19,6 +25,13 @@ export default function DashboardHeader({ name }: { name: string }) {
         <div className="font-light text-sm">What tasks are you going to create today?</div>
       </div>
       <div className="flex align-top gap-x-3">
+        <button
+          onClick={handleToggleDarkMode}
+          className="flex text-white gap-x-3 bg-black items-center rounded-md px-5
+            py-2 duration-200 active:bg-gray-500 h-fit hover:bg-gray-800 hover:shadow-lg dark:bg-white"
+        >
+          Toggle Dark Mode
+        </button>
         <button
           onClick={() => router.push("/task/create")}
           className="flex text-white gap-x-3 bg-black items-center rounded-md px-5

@@ -4,19 +4,19 @@ import { DeleteTaskMutation, DeleteTaskMutationVariables, TasksQuery } from "@/g
 import { gql, useMutation, useQuery } from "@apollo/client"
 import { MdDelete } from "react-icons/md"
 import { useSnackbar } from "../common/SnackbarProvider"
+import { useRouter } from "next/navigation"
 
 export const GET_TASKS = gql`
   query Tasks {
-    me {
+    tasks(
+      permissions: [read, write]
+    ) {
       id
-      tasks {
-        id
-        name
-        full_name
-        time_limit
-        memory_limit
-        is_public
-      }
+      name
+      full_name
+      time_limit
+      memory_limit
+      is_public
     }
   }
 `
@@ -31,8 +31,9 @@ const DELETE_TASK = gql`
 
 export default function TasksList() {
   const { data } = useQuery<TasksQuery>(GET_TASKS)
+  const router = useRouter()
   const snackbar = useSnackbar()
-  const tasks = data?.me?.tasks ?? []
+  const tasks = data?.tasks ?? []
 
   const [deleteTask] = useMutation<DeleteTaskMutation, DeleteTaskMutationVariables>(DELETE_TASK)
 
@@ -50,7 +51,9 @@ export default function TasksList() {
       { tasks.map( task => (
         <div
           key={task.id}
-          className="h-fit bg-gray-50 py-3 px-4 rounded-md flex justify-between"
+          onClick={() => router.push(`/task/edit/${task.id}`)}
+          className="h-fit bg-gray-50 py-3 px-4 rounded-md flex justify-between
+            cursor-pointer hover:bg-gray-100 active:bg-gray-200"
         >
           <div>
             <div className="text-xs font-light">{ task.name }</div>
@@ -59,7 +62,8 @@ export default function TasksList() {
           <div className="flex items-center pr-2">
             <button
               onClick={() => handleDeleteTask(task.id)}
-              className="flex justify-center items-center hover:bg-black/10 size-8 rounded-full duration-200"
+              className="flex justify-center items-center hover:bg-red-500 hover:text-white
+                size-8 rounded-full duration-100"
             >
               <MdDelete className="size-5" />
             </button>

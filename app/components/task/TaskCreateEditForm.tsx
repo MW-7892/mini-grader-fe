@@ -37,12 +37,11 @@ const CREATE_TASK = gql`
   }
 `
 
-export default function TaskCreateForm() {
+export default function TaskCreateEditForm() {
   const [createTask, { loading }] = useMutation<CreateTaskMutation, CreateTaskMutationVariables>(CREATE_TASK)
   const [isPublic, setIsPublic] = useState<boolean>(false)
   const snackbar = useSnackbar()
   const router = useRouter()
-  const SIDEBAR_WIDTH = "320px"
 
   const handleCreateTask = (event: any) => {
     event.preventDefault()
@@ -67,8 +66,8 @@ export default function TaskCreateForm() {
   }
 
   const toggleSidebar = () => {
-    document.getElementById("sidebar")?.classList.toggle(`-translate-x-[${SIDEBAR_WIDTH}]`)
-    document.getElementById("inner-part")?.classList.toggle(`ml-[${SIDEBAR_WIDTH}]`)
+    document.getElementById("sidebar")?.classList.toggle(`-translate-x-[320px]`)
+    document.getElementById("inner-part")?.classList.toggle(`ml-[320px]`)
   }
 
   return (
@@ -84,8 +83,8 @@ export default function TaskCreateForm() {
       <form onSubmit={handleCreateTask}>
         <aside
           id="sidebar"
-          className={`fixed inset-0 w-[${SIDEBAR_WIDTH}] h-screen p-8 pt-20 bg-gray-100
-            ease-in-out duration-300 hidden md:block`}
+          className={`fixed inset-0 w-[320px] h-screen p-8 pt-20 bg-gray-100
+            ease-in-out duration-300 hidden md:block dark:bg-gray-900 dark:text-white`}
         >
           <div className="mb-3 font-bold text-lg">
             General Information

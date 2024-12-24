@@ -1,4 +1,7 @@
-import TaskCreateForm from "@/components/task/TaskCreateForm"
+"use client"
+
+import AuthWrapper from "@/components/common/auth/AuthWrapper"
+import TaskCreateEditForm from "@/components/task/TaskCreateEditForm"
 import { Inter } from "next/font/google"
 
 const inter = Inter({
@@ -7,8 +10,10 @@ const inter = Inter({
 
 export default function TaskCreate() {
   return (
-    <div className={`p-10 ${inter.className}`}>
-      <TaskCreateForm />
-    </div>
+    <AuthWrapper>
+      <div className={`p-10 ${inter.className} dark:bg-slate-800 dark:text-white h-screen`}>
+        <TaskCreateEditForm />
+      </div>
+    </AuthWrapper>
   )
 }

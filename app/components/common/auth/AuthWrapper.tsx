@@ -5,6 +5,7 @@ import { gql, useQuery } from "@apollo/client"
 import Loading from "@/components/common/Loading"
 import { ProfileAuthQuery } from "@/gql/graphql"
 import { useAuth } from "./AuthProvider"
+import { redirect } from "next/navigation"
 
 const GET_PROFILE_AUTH = gql`
   query ProfileAuth {
@@ -17,18 +18,17 @@ const GET_PROFILE_AUTH = gql`
 `
 
 export default function AuthWrapper({ children }: PropsWithChildren) {
-  const router = useRouter()
   const { user, setUser } = useAuth()
 
   useEffect(() => {
     if (typeof window === "undefined") return
     if (localStorage.getItem(AUTH_TOKEN_NAME) === null) {
-      router.push("/login")
+      redirect('/login')
     }
-  }, [router])
+  }, [])
 
   const { loading } = useQuery<ProfileAuthQuery>(GET_PROFILE_AUTH, {
-    onError: () => router.push("/login"),
+    onError: () => redirect("/login"),
     onCompleted: (data) => {
       setUser(data.me ?? null)
     },
