@@ -4,10 +4,11 @@ import { CreateTaskMutation, CreateTaskMutationVariables } from "@/gql/graphql"
 import { gql, useMutation } from "@apollo/client"
 import { Field, Fieldset, Label, Input, Checkbox } from "@headlessui/react"
 import { useRouter } from "next/navigation"
-import { useState } from "react"
+import { ChangeEvent, useState } from "react"
 import { IoMdCheckmark } from "react-icons/io"
 import { MdMenu, MdOutlineAdd } from "react-icons/md"
 import { useSnackbar } from "../common/SnackbarProvider"
+import TaskStatementForm from "./TaskStatementForm"
 
 const CREATE_TASK = gql`
   mutation CreateTask(
@@ -40,6 +41,7 @@ const CREATE_TASK = gql`
 export default function TaskCreateEditForm() {
   const [createTask, { loading }] = useMutation<CreateTaskMutation, CreateTaskMutationVariables>(CREATE_TASK)
   const [isPublic, setIsPublic] = useState<boolean>(false)
+  const [statement, setStatement] = useState<string | null>(null)
   const snackbar = useSnackbar()
   const router = useRouter()
 
@@ -54,7 +56,7 @@ export default function TaskCreateEditForm() {
       variables: {
         name,
         full_name,
-        statement: null,
+        statement,
         time_limit,
         memory_limit,
         is_public: isPublic
@@ -70,6 +72,10 @@ export default function TaskCreateEditForm() {
     document.getElementById("inner-part")?.classList.toggle(`ml-[320px]`)
   }
 
+  const handleStatementChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    setStatement(event.target.value)
+  }
+
   return (
     <>
       <button
@@ -80,7 +86,7 @@ export default function TaskCreateEditForm() {
       >
         <MdMenu />
       </button>
-      <form onSubmit={handleCreateTask}>
+      <form className="h-full" onSubmit={handleCreateTask}>
         <aside
           id="sidebar"
           className={`fixed inset-0 w-[320px] h-screen p-8 pt-20 bg-gray-100
@@ -134,8 +140,11 @@ export default function TaskCreateEditForm() {
             </Field>
           </Fieldset>
         </aside>
-        <div id="inner-part" className="ml-[320px] duration-300 ease-in-out pt-10">
-          test
+        <div id="inner-part" className="h-full ml-[320px] duration-300 ease-in-out">
+          <TaskStatementForm
+            statement={statement}
+            handleStatementChange={handleStatementChange}
+          />
         </div>
         <button
           type="submit"

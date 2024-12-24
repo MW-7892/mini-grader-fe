@@ -15,6 +15,7 @@ export const GET_TASKS = gql`
       name
       full_name
       time_limit
+      statement
       memory_limit
       is_public
     }
