@@ -6,13 +6,14 @@ export default function TaskStatementForm({
   statement,
   handleStatementChange
 }: {
-  statement: string | null,
+  statement?: string,
   handleStatementChange: (event: ChangeEvent<HTMLTextAreaElement>) => void
 }) {
   return (
     <div className="grid grid-cols-2 gap-x-10 relative h-full">
       <Textarea
         name="statement"
+        value={statement}
         onChange={handleStatementChange}
         className="resize-none focus:outline-none border border-gray-200
           rounded-lg p-4"

@@ -1,71 +1,32 @@
 'use client'
 
-import { CreateTaskMutation, CreateTaskMutationVariables } from "@/gql/graphql"
-import { gql, useMutation } from "@apollo/client"
 import { Field, Fieldset, Label, Input, Checkbox } from "@headlessui/react"
-import { useRouter } from "next/navigation"
 import { ChangeEvent, useState } from "react"
 import { IoMdCheckmark } from "react-icons/io"
 import { MdMenu, MdOutlineAdd } from "react-icons/md"
-import { useSnackbar } from "../common/SnackbarProvider"
 import TaskStatementForm from "./TaskStatementForm"
+import parseIntNullCheck from "@/utils/parseIntNullCheck"
 
-const CREATE_TASK = gql`
-  mutation CreateTask(
-    $name: String!
-    $full_name: String!
-    $statement: String
-    $time_limit: Int!
-    $memory_limit: Int!
-    $is_public: Boolean!
-  ) {
-    createTask(input: {
-      name: $name
-      full_name: $full_name
-      statement: $statement
-      time_limit: $time_limit
-      memory_limit: $memory_limit
-      is_public: $is_public
-    }){
-      id
-      name
-      full_name
-      statement
-      time_limit
-      memory_limit
-      is_public
-    }
-  }
-`
+export type TaskCreateEditFormValues = {
+  name?: string
+  full_name?: string
+  statement?: string | null
+  time_limit?: number
+  memory_limit?: number
+  is_public?: boolean
+}
 
-export default function TaskCreateEditForm() {
-  const [createTask, { loading }] = useMutation<CreateTaskMutation, CreateTaskMutationVariables>(CREATE_TASK)
-  const [isPublic, setIsPublic] = useState<boolean>(false)
-  const [statement, setStatement] = useState<string | null>(null)
-  const snackbar = useSnackbar()
-  const router = useRouter()
+export default function TaskCreateEditForm({
+  handleSubmitAction,
+  initialValues,
+  loading
+}: {
+  handleSubmitAction: (values: TaskCreateEditFormValues) => void
+  initialValues?: TaskCreateEditFormValues,
+  loading: boolean
+}) {
 
-  const handleCreateTask = (event: any) => {
-    event.preventDefault()
-    const name = event.target.name.value
-    const full_name = event.target.full_name.value
-    const time_limit = event.target.time_limit.value
-    const memory_limit = event.target.memory_limit.value
-
-    createTask({
-      variables: {
-        name,
-        full_name,
-        statement,
-        time_limit,
-        memory_limit,
-        is_public: isPublic
-      },
-    })
-      .then(() => snackbar.setMessage("Task created successfully"))
-      .then(() => router.push("/dashboard"))
-      .catch((error) => console.log(error.message))
-  }
+  const [values, setValues] = useState<TaskCreateEditFormValues>(initialValues ?? {})
 
   const toggleSidebar = () => {
     document.getElementById("sidebar")?.classList.toggle(`-translate-x-[320px]`)
@@ -73,7 +34,12 @@ export default function TaskCreateEditForm() {
   }
 
   const handleStatementChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    setStatement(event.target.value)
+    setValues(p => ({ ...p, statement: event.target.value }))
+  }
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault()
+    handleSubmitAction(values)
   }
 
   return (
@@ -86,7 +52,7 @@ export default function TaskCreateEditForm() {
       >
         <MdMenu />
       </button>
-      <form className="h-full" onSubmit={handleCreateTask}>
+      <form className="h-full" onSubmit={handleSubmit}>
         <aside
           id="sidebar"
           className={`fixed inset-0 w-[320px] h-screen p-8 pt-20 bg-gray-100
@@ -98,13 +64,22 @@ export default function TaskCreateEditForm() {
           <Fieldset className="grid gap-y-4">
             <Field>
               <Label className="block text-sm font-medium">Task Name*</Label>
-              <Input required className="text-field w-full bg-white" name="name" placeholder="aplusb" />
+              <Input
+                required
+                className="text-field w-full bg-white"
+                name="name"
+                placeholder="aplusb"
+                value={values.name}
+                onChange={(event) => setValues(p => ({ ...p, name: event.target.value }))}
+              />
             </Field>
             <Field>
               <Label className="block text-sm font-medium">Full Name*</Label>
               <Input
                 required
                 className="text-field w-full bg-white"
+                onChange={(event) => setValues(p => ({ ...p, full_name: event.target.value }))}
+                value={values.full_name}
                 name="full_name"
                 placeholder="A + B"
               />
@@ -113,6 +88,9 @@ export default function TaskCreateEditForm() {
               <Label className="block text-sm font-medium">Time Limit (ms)*</Label>
               <Input
                 required
+                type="number"
+                onChange={(event) => setValues(p => ({ ...p, time_limit: parseIntNullCheck(event.target.value) }))}
+                value={values.time_limit}
                 className="text-field w-full bg-white"
                 name="time_limit"
                 placeholder="1000"
@@ -122,6 +100,9 @@ export default function TaskCreateEditForm() {
               <Label className="block text-sm font-medium">Memory Limit (MB)*</Label>
               <Input
                 required
+                type="number"
+                onChange={(event) => setValues(p => ({ ...p, memory_limit: parseIntNullCheck(event.target.value) }))}
+                value={values.memory_limit}
                 className="text-field w-full bg-white"
                 name="memory_limit"
                 placeholder="32"
@@ -129,8 +110,8 @@ export default function TaskCreateEditForm() {
             </Field>
             <Field className="flex justify-left items-center gap-x-3 mt-2">
               <Checkbox
-                checked={isPublic}
-                onChange={setIsPublic}
+                checked={values.is_public}
+                onChange={(value) => setValues(p => ({ ...p, is_public: value }))}
                 className="group size-5 rounded-md bg-white duration-100 p-1
                   ring-inset data-[checked]:bg-gray-500"
               >
@@ -142,19 +123,19 @@ export default function TaskCreateEditForm() {
         </aside>
         <div id="inner-part" className="h-full ml-[320px] duration-300 ease-in-out">
           <TaskStatementForm
-            statement={statement}
+            statement={values.statement ?? undefined}
             handleStatementChange={handleStatementChange}
           />
         </div>
         <button
           type="submit"
-          className="fixed bottom-0 right-0 bg-black w-36 text-white py-2 m-10
+          className="fixed bottom-0 right-0 bg-black w-fit pl-3 pr-4 text-white py-2 m-10
             shadow-md hover:shadow-lg active:bg-black/60 rounded-md flex gap-x-2
-            items-center justify-center pr-2"
+            items-center justify-center"
           disabled={loading}
         >
           <MdOutlineAdd />
-          Create Task
+          { initialValues ? "Edit Task" : "Create Task" }
         </button>
       </form>
     </>
