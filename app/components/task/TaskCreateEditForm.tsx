@@ -11,8 +11,8 @@ export type TaskCreateEditFormValues = {
   name?: string
   full_name?: string
   statement?: string | null
-  time_limit?: number
-  memory_limit?: number
+  time_limit?: number | null
+  memory_limit?: number | null
   is_public?: boolean
 }
 
@@ -69,7 +69,7 @@ export default function TaskCreateEditForm({
                 className="text-field w-full bg-white"
                 name="name"
                 placeholder="aplusb"
-                value={values.name}
+                value={values.name ?? ""}
                 onChange={(event) => setValues(p => ({ ...p, name: event.target.value }))}
               />
             </Field>
@@ -79,7 +79,7 @@ export default function TaskCreateEditForm({
                 required
                 className="text-field w-full bg-white"
                 onChange={(event) => setValues(p => ({ ...p, full_name: event.target.value }))}
-                value={values.full_name}
+                value={values.full_name ?? ""}
                 name="full_name"
                 placeholder="A + B"
               />
@@ -90,7 +90,7 @@ export default function TaskCreateEditForm({
                 required
                 type="number"
                 onChange={(event) => setValues(p => ({ ...p, time_limit: parseIntNullCheck(event.target.value) }))}
-                value={values.time_limit}
+                value={values.time_limit ?? ""}
                 className="text-field w-full bg-white"
                 name="time_limit"
                 placeholder="1000"
@@ -102,7 +102,7 @@ export default function TaskCreateEditForm({
                 required
                 type="number"
                 onChange={(event) => setValues(p => ({ ...p, memory_limit: parseIntNullCheck(event.target.value) }))}
-                value={values.memory_limit}
+                value={values.memory_limit ?? ""}
                 className="text-field w-full bg-white"
                 name="memory_limit"
                 placeholder="32"
@@ -110,7 +110,7 @@ export default function TaskCreateEditForm({
             </Field>
             <Field className="flex justify-left items-center gap-x-3 mt-2">
               <Checkbox
-                checked={values.is_public}
+                checked={values.is_public ?? false}
                 onChange={(value) => setValues(p => ({ ...p, is_public: value }))}
                 className="group size-5 rounded-md bg-white duration-100 p-1
                   ring-inset data-[checked]:bg-gray-500"
@@ -123,6 +123,9 @@ export default function TaskCreateEditForm({
         </aside>
         <div id="inner-part" className="h-full ml-[320px] duration-300 ease-in-out">
           <TaskStatementForm
+            full_name={values.full_name ?? ""}
+            time_limit={values.time_limit ?? 0}
+            memory_limit={values.memory_limit ?? 0}
             statement={values.statement ?? undefined}
             handleStatementChange={handleStatementChange}
           />

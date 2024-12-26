@@ -29,7 +29,7 @@ const CREATE_TASK = gql`
       memory_limit: $memory_limit
       is_public: $is_public
     }){
-      id
+      display_id
       name
       full_name
       statement

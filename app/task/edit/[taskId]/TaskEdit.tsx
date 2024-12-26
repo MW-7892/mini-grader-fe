@@ -14,7 +14,7 @@ const inter = Inter({
 
 const EDIT_TASK = gql`
   mutation EditTask(
-    $id: ID!
+    $id: String!
     $name: String
     $full_name: String
     $statement: String
@@ -23,7 +23,7 @@ const EDIT_TASK = gql`
     $is_public: Boolean
   ) {
     updateTask(input: {
-      id: $id
+      display_id: $id
       name: $name
       full_name: $full_name
       statement: $statement
@@ -31,7 +31,7 @@ const EDIT_TASK = gql`
       memory_limit: $memory_limit
       is_public: $is_public
     }){
-      id
+      display_id
       name
       full_name
       statement
@@ -43,9 +43,9 @@ const EDIT_TASK = gql`
 `
 
 const GET_TASK_EDIT = gql`
-  query TaskEditData($id: ID!) {
-    task(id: $id) {
-      id
+  query TaskEditData($id: String!) {
+    task(display_id: $id) {
+      display_id
       name
       full_name
       statement

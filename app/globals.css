@@ -24,6 +24,32 @@ h1 {
   @apply text-xl;
 }
 
+@layer base {
+  .markdown h1 {
+    @apply font-bold text-3xl mb-6
+  }
+  
+  .markdown h2 {
+    @apply font-bold text-xl mb-5
+  }
+
+  .markdown ul {
+    @apply list-disc pl-4 mb-4
+  }
+
+  .markdown p {
+    @apply mb-4
+  }
+
+  .markdown pre {
+    @apply bg-gray-100 rounded-md py-2 px-3 hover:bg-gray-200
+  }
+
+  .markdown code {
+    @apply  text-sm
+  }
+}
+
 @layer components {
   .text-field {
     @apply mt-2 block bg-gray-100 rounded-md py-2 px-3 text-gray-600

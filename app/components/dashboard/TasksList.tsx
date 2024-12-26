@@ -11,7 +11,7 @@ export const GET_TASKS = gql`
     tasks(
       permissions: [read, write]
     ) {
-      id
+      display_id
       name
       full_name
       time_limit
@@ -23,9 +23,9 @@ export const GET_TASKS = gql`
 `
 
 const DELETE_TASK = gql`
-  mutation DeleteTask($id: ID!) {
-    deleteTask(id: $id) {
-      id
+  mutation DeleteTask($id: String!) {
+    deleteTask(display_id: $id) {
+      display_id
     }
   }
 `
@@ -51,8 +51,8 @@ export default function TasksList() {
     >
       { tasks.map( task => (
         <div
-          key={task.id}
-          onClick={() => router.push(`/task/edit/${task.id}`)}
+          key={task.display_id}
+          onClick={() => router.push(`/task/edit/${task.display_id}`)}
           className="h-fit bg-gray-50 py-3 px-4 rounded-md flex justify-between
             cursor-pointer hover:bg-gray-100 active:bg-gray-200"
         >
@@ -62,7 +62,7 @@ export default function TasksList() {
           </div>
           <div className="flex items-center pr-2">
             <button
-              onClick={() => handleDeleteTask(task.id)}
+              onClick={() => handleDeleteTask(task.display_id)}
               className="flex justify-center items-center hover:bg-red-500 hover:text-white
                 size-8 rounded-full duration-100"
             >
