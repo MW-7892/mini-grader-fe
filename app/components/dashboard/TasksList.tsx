@@ -47,14 +47,14 @@ export default function TasksList() {
   return (
     <div
       className="grid bg-white items-start content-start rounded-lg
-        w-full drop-shadow-md p-4 gap-y-4 overflow-y-hidden"
+        w-full drop-shadow-md p-4 gap-y-4 overflow-y-hidden dark:bg-gray-800"
     >
       { tasks.map( task => (
         <div
           key={task.display_id}
           onClick={() => router.push(`/task/edit/${task.display_id}`)}
-          className="h-fit bg-gray-50 py-3 px-4 rounded-md flex justify-between
-            cursor-pointer hover:bg-gray-100 active:bg-gray-200"
+          className="h-fit bg-gray-50 dark:bg-gray-700 py-3 px-4 rounded-md flex justify-between
+            cursor-pointer hover:bg-gray-100 active:bg-gray-200 dark:hover:bg-gray-600 dark:active:bg-gray-500"
         >
           <div>
             <div className="text-xs font-light">{ task.name }</div>
