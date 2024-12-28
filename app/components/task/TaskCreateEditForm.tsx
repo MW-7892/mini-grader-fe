@@ -3,9 +3,10 @@
 import { Field, Fieldset, Label, Input, Checkbox } from "@headlessui/react"
 import { ChangeEvent, useState } from "react"
 import { IoMdCheckmark } from "react-icons/io"
-import { MdMenu, MdOutlineAdd } from "react-icons/md"
+import { MdMenu, MdOutlineAdd, MdOutlineArrowBackIos } from "react-icons/md"
 import TaskStatementForm from "./TaskStatementForm"
 import parseIntNullCheck from "@/utils/parseIntNullCheck"
+import { useRouter } from "next/navigation"
 
 export type TaskCreateEditFormValues = {
   name?: string
@@ -25,6 +26,7 @@ export default function TaskCreateEditForm({
   initialValues?: TaskCreateEditFormValues,
   loading: boolean
 }) {
+  const router = useRouter()
 
   const [values, setValues] = useState<TaskCreateEditFormValues>(initialValues ?? {})
 
@@ -130,16 +132,28 @@ export default function TaskCreateEditForm({
             handleStatementChange={handleStatementChange}
           />
         </div>
-        <button
-          type="submit"
-          className="fixed bottom-0 right-0 bg-black w-fit pl-3 pr-4 text-white py-2 m-10
-            shadow-md hover:shadow-lg active:bg-black/60 rounded-md flex gap-x-2
-            items-center justify-center"
-          disabled={loading}
-        >
-          <MdOutlineAdd />
-          { initialValues ? "Edit Task" : "Create Task" }
-        </button>
+        <div className="fixed bottom-0 right-0 flex m-10 gap-x-5">
+          <button
+            type="button"
+            className="bg-white w-fit pl-3 pr-4 py-2
+              shadow-md hover:shadow-lg hover:bg-gray-100 active:bg-black/60 rounded-md
+              flex gap-x-2 items-center justify-center"
+            onClick={router.back}
+          >
+            <MdOutlineArrowBackIos />
+            Back
+          </button>
+          <button
+            type="submit"
+            className=" bg-black w-fit pl-3 pr-4 text-white py-2
+              shadow-md hover:shadow-lg active:bg-black/60 rounded-md flex gap-x-2
+              items-center justify-center"
+            disabled={loading}
+          >
+            <MdOutlineAdd />
+            { initialValues ? "Edit Task" : "Create Task" }
+          </button>
+        </div>
       </form>
     </>
   )

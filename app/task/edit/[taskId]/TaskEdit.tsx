@@ -85,7 +85,8 @@ export default function TaskEdit({ taskId }: { taskId: string }) {
       variables: {
         ...values,
         id: taskId
-      }
+      },
+      refetchQueries: ["TaskEditData"]
     })
       .then(() => snackbar.setMessage("Task updated successfully"))
       .then(() => router.push("/dashboard"))

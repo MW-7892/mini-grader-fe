@@ -54,7 +54,8 @@ export default function TaskCreate() {
         time_limit: values.time_limit ?? 0,
         memory_limit: values.memory_limit ?? 0,
         is_public: values.is_public ?? false
-      }
+      },
+      refetchQueries: ["Tasks"]
     })
       .then(() => snackbar.setMessage("Task created successfully"))
       .then(() => router.push("/dashboard"))
