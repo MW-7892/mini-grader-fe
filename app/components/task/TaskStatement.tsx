@@ -1,4 +1,7 @@
 import Markdown from "react-markdown";
+import rehypeKatex from "rehype-katex";
+import remarkMath from "remark-math";
+import "katex/dist/katex.min.css"
 
 export default function TaskStatement({
   full_name,
@@ -20,13 +23,16 @@ export default function TaskStatement({
     <div className="markdown relative">
       <h1>{ full_name }</h1>
       <div
-        className="absolute top-0 right-0 bg-gray-100 rounded-full px-3 py-1 m-2
-          text-sm"
+        className="lg:absolute lg:top-0 lg:right-0 bg-gray-100 rounded-full px-3 py-1 m-2
+          text-sm ml-0 mb-3"
       >
         { time_limit / 1000 } { time_limit === 1000 ? "second" : "seconds" } { " / " }
         { formatMemoryLimit(memory_limit) }
       </div>
-      <Markdown>{ statement }</Markdown>
+      <Markdown
+        remarkPlugins={[ remarkMath ]}
+        rehypePlugins={[ rehypeKatex ]}
+      >{ statement }</Markdown>
     </div>
   )
 }

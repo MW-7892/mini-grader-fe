@@ -22,15 +22,15 @@ export default function TaskStatementForm({
   handleStatementChange: (event: ChangeEvent<HTMLTextAreaElement>) => void
 }) {
   return (
-    <div className="grid grid-cols-2 gap-x-10 relative h-full">
+    <div className="grid md:grid-cols-2 gap-x-10 relative h-full">
       <Textarea
         name="statement"
         value={statement}
         onChange={handleStatementChange}
         className={`resize-none focus:outline-none border border-gray-200
-          rounded-lg p-4 ${editorFont.className}`}
+          rounded-lg p-4 ${editorFont.className} h-screen md:h-full mb-6 md:mb-0`}
       ></Textarea>
-      <div className="absolute top-0 left-1/2 h-full border border-dashed border-l-gray-100"></div>
+      <div className="hidden md:block absolute top-0 left-1/2 h-full border border-dashed border-l-gray-100"></div>
       <div>
         <TaskStatement
           full_name={full_name}

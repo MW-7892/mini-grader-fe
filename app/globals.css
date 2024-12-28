@@ -34,7 +34,7 @@ h1 {
   }
 
   .markdown ul {
-    @apply list-disc pl-4 mb-4
+    @apply list-disc pl-4 mb-4 space-y-1
   }
 
   .markdown p {
@@ -42,7 +42,7 @@ h1 {
   }
 
   .markdown pre {
-    @apply bg-gray-100 rounded-md py-2 px-3 hover:bg-gray-200
+    @apply bg-gray-100 rounded-md py-2 px-3 hover:bg-gray-200 mb-4 overflow-x-scroll
   }
 
   .markdown code {
