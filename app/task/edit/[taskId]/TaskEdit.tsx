@@ -3,13 +3,18 @@
 import AuthWrapper from "@/components/common/auth/AuthWrapper"
 import { useSnackbar } from "@/components/common/SnackbarProvider"
 import TaskCreateEditForm, { TaskCreateEditFormValues } from "@/components/task/TaskCreateEditForm"
-import { EditTaskMutation, EditTaskMutationVariables, TaskEditDataQuery, TaskEditDataQueryVariables } from "@/gql/graphql"
+import {
+  EditTaskMutation,
+  EditTaskMutationVariables,
+  TaskEditDataQuery,
+  TaskEditDataQueryVariables,
+} from "@/gql/graphql"
 import { gql, useMutation, useQuery } from "@apollo/client"
 import { Inter } from "next/font/google"
 import { useRouter } from "next/navigation"
 
 const inter = Inter({
-  subsets: ['latin']
+  subsets: ["latin"],
 })
 
 const EDIT_TASK = gql`
@@ -22,15 +27,17 @@ const EDIT_TASK = gql`
     $memory_limit: Int
     $is_public: Boolean
   ) {
-    updateTask(input: {
-      display_id: $id
-      name: $name
-      full_name: $full_name
-      statement: $statement
-      time_limit: $time_limit
-      memory_limit: $memory_limit
-      is_public: $is_public
-    }){
+    updateTask(
+      input: {
+        display_id: $id
+        name: $name
+        full_name: $full_name
+        statement: $statement
+        time_limit: $time_limit
+        memory_limit: $memory_limit
+        is_public: $is_public
+      }
+    ) {
       display_id
       name
       full_name
@@ -76,17 +83,16 @@ export default function TaskEdit({ taskId }: { taskId: string }) {
     statement: task.statement,
     memory_limit: task.memory_limit,
     time_limit: task.time_limit,
-    is_public: task.is_public
+    is_public: task.is_public,
   }
-
 
   const handleEditTask = (values: TaskCreateEditFormValues) => {
     editTask({
       variables: {
         ...values,
-        id: taskId
+        id: taskId,
       },
-      refetchQueries: ["TaskEditData"]
+      refetchQueries: ["TaskEditData"],
     })
       .then(() => snackbar.setMessage("Task updated successfully"))
       .then(() => router.push("/dashboard"))
@@ -95,7 +101,7 @@ export default function TaskEdit({ taskId }: { taskId: string }) {
 
   return (
     <AuthWrapper>
-      <div className={`p-10 ${inter.className} dark:bg-slate-800 dark:text-white h-screen`}>
+      <div className={`p-10 ${inter.className} dark:bg-dark dark:text-slate-300 h-screen`}>
         <TaskCreateEditForm
           initialValues={initialValues}
           handleSubmitAction={handleEditTask}

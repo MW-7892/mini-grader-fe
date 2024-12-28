@@ -1,11 +1,11 @@
-import { Textarea } from "@headlessui/react";
-import { Roboto_Mono } from "next/font/google";
-import { ChangeEvent } from "react";
-import TaskStatement from "./TaskStatement";
+import { Textarea } from "@headlessui/react"
+import { Roboto_Mono } from "next/font/google"
+import { ChangeEvent } from "react"
+import TaskStatement from "./TaskStatement"
 
 const editorFont = Roboto_Mono({
   subsets: ["latin"],
-  weight: "400"
+  weight: "400",
 })
 
 export default function TaskStatementForm({
@@ -13,12 +13,12 @@ export default function TaskStatementForm({
   time_limit,
   memory_limit,
   statement,
-  handleStatementChange
+  handleStatementChange,
 }: {
   full_name: string
-  time_limit: number,
+  time_limit: number
   memory_limit: number
-  statement?: string,
+  statement?: string
   handleStatementChange: (event: ChangeEvent<HTMLTextAreaElement>) => void
 }) {
   return (
@@ -27,8 +27,8 @@ export default function TaskStatementForm({
         name="statement"
         value={statement}
         onChange={handleStatementChange}
-        className={`resize-none focus:outline-none border border-gray-200
-          rounded-lg p-4 ${editorFont.className} h-screen md:h-full mb-6 md:mb-0`}
+        className={`resize-none focus:outline-none border border-gray-200 dark:bg-dark
+          rounded-lg p-4 ${editorFont.className} h-screen md:h-full mb-6 md:mb-0 dark:text-gray-300`}
       ></Textarea>
       <div className="hidden md:block absolute top-0 left-1/2 h-full border border-dashed border-l-gray-100"></div>
       <div>

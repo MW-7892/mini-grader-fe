@@ -43,6 +43,7 @@ h1 {
 
   .markdown pre {
     @apply bg-gray-100 rounded-md py-2 px-3 hover:bg-gray-200 mb-4 overflow-x-scroll
+      dark:bg-gray-800
   }
 
   .markdown code {
