@@ -31,7 +31,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body
+        className={`bg-white dark:bg-black ${geistSans.variable} ${geistMono.variable}
+                    antialiased text-black dark:text-white`}
+      >
         <AuthProvider>
           <DarkModeWrapper>
             <SnackbarProvider>

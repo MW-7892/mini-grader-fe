@@ -1,22 +1,14 @@
-"use client"
-
-import AuthWrapper from "@/components/common/auth/AuthWrapper"
-import { useSnackbar } from "@/components/common/SnackbarProvider"
-import TaskCreateEditForm, { TaskCreateEditFormValues } from "@/components/task/TaskCreateEditForm"
-import { CreateTaskMutation, CreateTaskMutationVariables } from "@/gql/graphql"
+import Dialog from "@/components/common/Dialog"
+import TaskCreateForm, { TaskCreateEditFormValues } from "./TaskCreateForm"
 import { gql, useMutation } from "@apollo/client"
-import { Inter } from "next/font/google"
+import { useSnackbar } from "@/components/common/SnackbarProvider"
 import { useRouter } from "next/navigation"
-
-const inter = Inter({
-  subsets: ["latin"],
-})
+import { CreateTaskMutation, CreateTaskMutationVariables } from "@/gql/graphql"
 
 const CREATE_TASK = gql`
   mutation CreateTask(
     $name: String!
     $full_name: String!
-    $statement: String
     $time_limit: Int!
     $memory_limit: Int!
     $is_public: Boolean!
@@ -25,7 +17,6 @@ const CREATE_TASK = gql`
       input: {
         name: $name
         full_name: $full_name
-        statement: $statement
         time_limit: $time_limit
         memory_limit: $memory_limit
         is_public: $is_public
@@ -42,35 +33,43 @@ const CREATE_TASK = gql`
   }
 `
 
-export default function TaskCreate() {
+export default function TaskCreateDialog({
+  isOpen = false,
+  onClose,
+}: {
+  isOpen?: boolean
+  onClose: () => void
+}) {
+  const snackbar = useSnackbar()
+  const router = useRouter()
   const [createTask, { loading }] = useMutation<CreateTaskMutation, CreateTaskMutationVariables>(
     CREATE_TASK,
   )
-  const snackbar = useSnackbar()
-  const router = useRouter()
 
   const handleCreateTask = (values: TaskCreateEditFormValues) => {
     createTask({
       variables: {
         name: values.name ?? "",
         full_name: values.full_name ?? "",
-        statement: values.statement,
         time_limit: values.time_limit ?? 0,
         memory_limit: values.memory_limit ?? 0,
         is_public: values.is_public ?? false,
       },
       refetchQueries: ["Tasks"],
     })
+      .then(() => onClose())
       .then(() => snackbar.setMessage("Task created successfully"))
       .then(() => router.push("/dashboard"))
       .catch((error) => console.log(error.message))
   }
 
   return (
-    <AuthWrapper>
-      <div className={`p-10 ${inter.className} dark:bg-dark dark:text-white h-screen`}>
-        <TaskCreateEditForm handleSubmitAction={handleCreateTask} loading={loading} />
-      </div>
-    </AuthWrapper>
+    <Dialog isOpen={isOpen} onClose={onClose} title={"Create Task"}>
+      <TaskCreateForm
+        loading={loading}
+        handleSubmitAction={handleCreateTask}
+        onCloseAction={onClose}
+      />
+    </Dialog>
   )
 }
